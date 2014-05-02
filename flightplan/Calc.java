@@ -59,17 +59,17 @@ public class Calc {
     }
     
     
-    public static FlightRoute getNormal (FlightRoute line, Point point) {
+    public static Line getNormal (FlightRoute line, Point point) {
         double aNormal = line.getB();
         double bNormal = - line.getA();
         double cNormal = - point.getX() * aNormal - point.getY() * bNormal;
-        FlightRoute normal = new FlightRoute (aNormal, bNormal, cNormal);
+        Line normal = new Line (aNormal, bNormal, cNormal);
         return normal;
     }
     
     //Finding an intersection point of the lines described by these equations a1*x+b1*y+c1=0 and a2*x+b2*y+c2=0
     public static Point getProjection (FlightRoute line, Point point) {
-        FlightRoute normal = getNormal(line, point);
+        Line normal = getNormal(line, point);
         double a = line.getA();
         double b = line.getB();
         double c = line.getC();

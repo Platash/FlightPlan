@@ -1,5 +1,6 @@
 
 package flightplan;
+
 import java.text.ParseException;
 
 /**
@@ -9,11 +10,11 @@ import java.text.ParseException;
  * in which this vector lies. 
  * This information is needed to select emergency airfields whith projections on flight line
  * lying only between start and finish points
- * For calculations I use the line equation Ax+By+C=0
+ * For calculations I use line equation Ax+By+C=0
  * @author Anna Platash
  */
-public class FlightRoute {
-    private double a, b, c;
+
+public class FlightRoute extends Line{
     private int quadrant;
     private String startTime;
     private String finishTime;
@@ -25,7 +26,7 @@ public class FlightRoute {
     //Using line equation here (y1-y2)*x+(x2-x1)*y+(x1y2-x2y1)=0
     public FlightRoute (Field startField, Field finishField, double maxDistance, 
                         double speed, String startTime) throws ParseException {
-        
+        super ();
         this.maxDistance = maxDistance;
         this.speed = speed;
         this.startTime = startTime;
@@ -38,10 +39,10 @@ public class FlightRoute {
         double flightDuration = Calc.getFlightDuration(speed, flightDist);
         this.finishField.setPassTime(Calc.getArrivalTime(startTime, flightDuration));
         
-        a = startField.getCoords().getY() - finishField.getCoords().getY();
-        b = finishField.getCoords().getX() - startField.getCoords().getX();
-        c = startField.getCoords().getX() * finishField.getCoords().getY() - 
-                finishField.getCoords().getX() * startField.getCoords().getY();
+        setA(startField.getCoords().getY() - finishField.getCoords().getY());
+        setB(finishField.getCoords().getX() - startField.getCoords().getX());
+        setC(startField.getCoords().getX() * finishField.getCoords().getY() - 
+                finishField.getCoords().getX() * startField.getCoords().getY());
         
         if (startField.getCoords().getX() == finishField.getCoords().getX() && 
                 startField.getCoords().getY() == finishField.getCoords().getY()) {
@@ -62,12 +63,6 @@ public class FlightRoute {
         }
     }
     
-    public FlightRoute (double a, double b, double c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    }
-   
     public String getFinishTime () {
         return this.finishTime;
     }
@@ -83,19 +78,7 @@ public class FlightRoute {
     public double getMaxDistance () {
         return this.maxDistance;
     }
-    
-    public double getA () {
-        return this.a;
-    }
-    
-    public double getB () {
-        return this.b;
-    }
-    
-    public double getC () {
-        return this.c;
-    }
-    
+ 
     public Point getStartPoint () {
         return this.startField.getCoords();
     }
@@ -118,5 +101,9 @@ public class FlightRoute {
     
     public void setFinishTime (String time) {
         this.finishTime = time;
+    }
+    
+    public void setQuadrant (int quad) {
+        this.quadrant = quad;
     }
 }
